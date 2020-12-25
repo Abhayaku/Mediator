@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "61920546340",
+    "project_id": "abhayaku-chat-app",
+    "storage_bucket": "abhayaku-chat-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:61920546340:android:17b52904473ec1291bd2b1",
+        "android_client_info": {
+          "package_name": "com.mediator"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "61920546340-s51v1iupnln6t7nkelo3vlf03sc8fn21.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDaZaMZJWZFuPtu_j-oe8ErHYu_P2AN9nw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "61920546340-s51v1iupnln6t7nkelo3vlf03sc8fn21.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
