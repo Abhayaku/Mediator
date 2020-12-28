@@ -13,10 +13,10 @@ import Signup from './Component/Signup';
 import Setting from './Component/Setting';
 import Profileview from './Component/Profileview';
 
-// screen dimension global
+// screen dimension global variable
 global.widthsize = Dimensions.get('screen').width;
 global.heightsize = Dimensions.get('screen').height;
-// application color global
+// application color global variable
 global.backgroundcolor = '#040712';
 global.buttonbackground = '#162240';
 global.topheader = '#081524';
