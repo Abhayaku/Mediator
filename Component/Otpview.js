@@ -51,7 +51,7 @@ export default class Otpview extends Component {
         if (user == null) {
             setTimeout(() => {
                 this.handlesencode();
-            }, 1000);
+            }, 100);
         }
         else {
             if (user.phoneNumber == `+91${number}`) {
@@ -59,7 +59,7 @@ export default class Otpview extends Component {
             }
             setTimeout(() => {
                 this.handlesencode();
-            }, 1000);
+            }, 100);
         }
     };
 
@@ -81,14 +81,14 @@ export default class Otpview extends Component {
             if (this.state.match) {
                 setTimeout(() => {
                     this.getuser();
-                }, 1000);
+                }, 100);
             }
             else {
                 this.state.confirmResult.confirm(this.state.verificationcode)
                     .then(() => {
                         setTimeout(() => {
                             this.getuser();
-                        }, 1000);
+                        }, 100);
                     })
                     .catch(error => {
                         console.log(error)
@@ -116,7 +116,7 @@ export default class Otpview extends Component {
         });
         setTimeout(() => {
             this.login();
-        }, 1000);
+        }, 100);
     }
 
     // login of user----------------------------------------------------------------------------------------------------------------------------------------------------
@@ -124,11 +124,13 @@ export default class Otpview extends Component {
         var pass = '';
         var name = '';
         var email = '';
+        var imageurl = '';
         for (var i = 0; i < this.state.userdata.length; i++) {
             if (this.state.userdata[i].phonenumber == this.props.route.params.number) {
                 pass = this.state.userdata[i].password;
                 name = this.state.userdata[i].name;
                 email = this.state.userdata[i].email;
+                imageurl = this.state.userdata[i].imageurl;
             }
         }
         setTimeout(async () => {
@@ -138,16 +140,17 @@ export default class Otpview extends Component {
                 ['phonenumber', this.props.route.params.number],
                 ['email', email],
                 ['password', pass],
+                ['profilepicture', imageurl],
             ];
             await AsyncStorage.multiSet(userinfo);
-            setTimeout(() => {
-                ToastAndroid.showWithGravity(`Welcome to Mediator`, ToastAndroid.LONG, ToastAndroid.BOTTOM);
-            }, 1000);
-            setTimeout(() => {
-                this.setState({ activebutton: false, verificationcode: '', confirmResult: '' });
-                this.props.navigation.navigate('Homepage');
-            }, 1000);
-        }, 1000);
+        }, 100);
+        setTimeout(() => {
+            ToastAndroid.showWithGravity(`Welcome to Mediator`, ToastAndroid.LONG, ToastAndroid.BOTTOM);
+        }, 100);
+        setTimeout(() => {
+            this.setState({ activebutton: false, verificationcode: '', confirmResult: '' });
+            this.props.navigation.navigate('Homepage');
+        }, 100);
     }
 
     // unmount----------------------------------------------------------------------------------------------------------------------------------------------

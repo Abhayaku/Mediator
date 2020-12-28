@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import {
     View, Text, TouchableHighlight, ActivityIndicator, BackHandler,
-    Image, ImageBackground
+    ImageBackground
 } from 'react-native';
+import Image from 'react-native-image-progress';
+import { UIActivityIndicator } from 'react-native-indicators';
 import Backicon from 'react-native-vector-icons/AntDesign';
 import Lockicon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Sendicon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -61,7 +63,7 @@ export default class Chatscreen extends Component {
             firestore().collection('Mediator').doc(this.props.route.params.title.phonenumber).collection("Chatroom").onSnapshot(querySnapshot => {
                 querySnapshot.docs.map(doc => {
                     if (doc._data.name == name) {
-                        this.setState({ doc: doc.id });
+                        this.setState({ doc: doc.id, });
                     }
                 });
             });
@@ -237,28 +239,6 @@ export default class Chatscreen extends Component {
         const phonenumber = await AsyncStorage.getItem('phonenumber');
         const text = newMessage[0].text;
 
-        // sender db update
-        firestore().collection('Mediator').doc(phonenumber).collection("Chatroom").doc(this.props.route.params.title._id).collection('Message')
-            .add({
-                text,
-                createdAt: new Date().getTime(),
-                user: {
-                    _id: phonenumber,
-                    name: this.state.name,
-                }
-            });
-        await firestore()
-        firestore().collection('Mediator').doc(phonenumber).collection("Chatroom").doc(this.props.route.params.title._id)
-            .set(
-                {
-                    latestMessage: {
-                        text,
-                        createdAt: new Date().getTime()
-                    }
-                },
-                { merge: true }
-            );
-
         // receiver db update
         firestore().collection('Mediator').doc(this.props.route.params.title.phonenumber).collection("Chatroom")
             .doc(this.state.doc).collection('Message')
@@ -273,6 +253,28 @@ export default class Chatscreen extends Component {
         await firestore()
         firestore().collection('Mediator').doc(this.props.route.params.title.phonenumber).collection("Chatroom")
             .doc(this.state.doc).set(
+                {
+                    latestMessage: {
+                        text,
+                        createdAt: new Date().getTime()
+                    }
+                },
+                { merge: true }
+            );
+
+        // sender db update
+        firestore().collection('Mediator').doc(phonenumber).collection("Chatroom").doc(this.props.route.params.title._id).collection('Message')
+            .add({
+                text,
+                createdAt: new Date().getTime(),
+                user: {
+                    _id: phonenumber,
+                    name: this.state.name,
+                }
+            });
+        await firestore()
+        firestore().collection('Mediator').doc(phonenumber).collection("Chatroom").doc(this.props.route.params.title._id)
+            .set(
                 {
                     latestMessage: {
                         text,
@@ -314,10 +316,16 @@ export default class Chatscreen extends Component {
                                             color={highlightcolor} />
                                     </View>
                                     :
-                                    <Image source={{ uri: this.props.route.params.title.imageurl }}
+                                    <Image
+                                        source={{ uri: this.props.route.params.title.imageurl }}
+                                        indicator={UIActivityIndicator}
+                                        indicatorProps={{
+                                            size: widthsize * 1.5 / 100,
+                                            color: highlightcolor,
+                                        }}
                                         style={{
-                                            width: widthsize * 9 / 100, height: widthsize * 9 / 100, marginLeft: widthsize * 2 / 100,
-                                            borderRadius: (widthsize * 9 / 100) / 2, overflow: 'hidden', borderColor: highlightcolor, borderWidth: 1
+                                            width: widthsize * 9 / 100, height: widthsize * 9 / 100, borderColor: highlightcolor,
+                                            borderRadius: (widthsize * 9 / 100) / 2, overflow: 'hidden', borderWidth: 1, marginLeft: widthsize * 2 / 100,
                                         }} />
                             }
                         </View>

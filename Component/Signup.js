@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import {
-    View, Text, TouchableOpacity, BackHandler, TextInput, Animated, Image,
+    View, Text, TouchableOpacity, BackHandler, TextInput, Animated,
     Keyboard, ToastAndroid, TouchableHighlight, ScrollView, TouchableWithoutFeedback
 } from 'react-native';
-import { DotIndicator } from 'react-native-indicators';
+import Image from 'react-native-image-progress';
+import { DotIndicator, UIActivityIndicator } from 'react-native-indicators';
 import Icon from 'react-native-vector-icons/Entypo';
 import Backicon from 'react-native-vector-icons/MaterialIcons';
 import firestore from '@react-native-firebase/firestore';
@@ -32,6 +33,7 @@ export default class Signup extends Component {
             imageurl: 'No Photo',
             imagechoose: false,
             fadevalue: new Animated.Value(0),
+            uploadimage: false,
             // height: 0,
         };
     }
@@ -87,8 +89,8 @@ export default class Signup extends Component {
     // camera choose----------------------------------------------------------------------------------------------------------------------------------------------------
     choosecamera = () => {
         ImagePicker.openCamera({
-            compressImageMaxHeight: 250,
-            compressImageMaxWidth: 250,
+            compressImageMaxWidth: 600,
+            compressImageMaxHeight: 799,
             compressImageQuality: 1,
             cropping: true,
             cropperCircleOverlay: true,
@@ -106,8 +108,8 @@ export default class Signup extends Component {
     // gallery choose----------------------------------------------------------------------------------------------------------------------------------------------------
     choosegallery = () => {
         ImagePicker.openPicker({
-            compressImageMaxHeight: 250,
-            compressImageMaxWidth: 250,
+            compressImageMaxWidth: 600,
+            compressImageMaxHeight: 799,
             compressImageQuality: 1,
             cropping: true,
             cropperCircleOverlay: true,
@@ -201,6 +203,7 @@ export default class Signup extends Component {
                     imageurl: null,
                     imagechoose: false,
                     signupactivebutton: false,
+                    uploadimage: false,
                 });
             }, 100);
             setTimeout(() => {
@@ -217,6 +220,7 @@ export default class Signup extends Component {
             }, 100);
         }
         else {
+            this.setState({ uploadimage: true });
             const image = `data:${this.state.profileimage.mime};base64,${this.state.profileimage.data}`;
             const reference = storage().ref(`profilepicture/${this.state.phonenumber}.jpg`);
             const task = reference.putString(image, storage.StringFormat.DATA_URL);
@@ -239,6 +243,7 @@ export default class Signup extends Component {
 
     // user details add----------------------------------------------------------------------------------------------------------------------------------------------------
     userdetails = () => {
+        this.setState({ uploadimage: false });
         firestore().collection('Users').add({
             name: `${this.state.firstname} ${this.state.lastname} `,
             phonenumber: this.state.phonenumber,
@@ -270,6 +275,7 @@ export default class Signup extends Component {
                     imageurl: null,
                     imagechoose: false,
                     signupactivebutton: false,
+                    uploadimage: false,
                 });
                 this.props.navigation.navigate('Homepage');
             }, 100);
@@ -327,7 +333,7 @@ export default class Signup extends Component {
                                         height: heightsize * 16 / 100, width: heightsize * 16 / 100, borderRadius: (heightsize * 16 / 100) / 2,
                                         borderColor: highlightcolor, borderWidth: 1, alignItems: 'center', justifyContent: 'center', marginTop: heightsize * 3 / 100
                                     }}>
-                                    <View style={{ alignItems: 'center', justifyContent: 'center', }}>
+                                    <View style={{ alignItems: 'center', justifyContent: 'center' }}>
                                         <Usericon name='user'
                                             size={widthsize * 15 / 100}
                                             color={highlightcolor} />
@@ -342,10 +348,16 @@ export default class Signup extends Component {
                                         this.setState({ imagechoose: true });
                                         this.fadeanimation();
                                     }}>
-                                    <Image source={{ uri: `data:${this.state.profileimage.mime};base64,${this.state.profileimage.data}` }}
+                                    <Image
+                                        source={{ uri: `data:${this.state.profileimage.mime};base64,${this.state.profileimage.data}` }}
+                                        indicator={UIActivityIndicator}
+                                        indicatorProps={{
+                                            size: widthsize * 5 / 100,
+                                            color: highlightcolor,
+                                        }}
                                         style={{
-                                            height: heightsize * 16 / 100, width: heightsize * 16 / 100, borderRadius: (heightsize * 16 / 100) / 2,
-                                            borderColor: highlightcolor, borderWidth: 1, marginTop: heightsize * 3 / 100, overflow: 'hidden'
+                                            width: heightsize * 16 / 100, height: heightsize * 16 / 100, borderColor: highlightcolor,
+                                            borderRadius: (heightsize * 16 / 100) / 2, overflow: 'hidden', borderWidth: 1, marginTop: heightsize * 3 / 100,
                                         }} />
                                 </TouchableOpacity>
                         }
@@ -537,6 +549,19 @@ export default class Signup extends Component {
 
                             </View>
                         </TouchableWithoutFeedback>
+                        :
+                        <View />
+                }
+                {
+                    this.state.uploadimage == true ?
+                        <View style={{ flex: 1, justifyContent: 'center', width: '100%', backgroundColor: 'rgba(0,0,0,0.8)', height: '100%', position: 'absolute' }}>
+                            <View style={{ alignItems: 'center', justifyContent: 'center' }}>
+                                <UIActivityIndicator color={highlightcolor} size={widthsize * 8 / 100} count={10} />
+                                <Text allowFontScaling={false} style={{ color: textcolor, fontSize: widthsize * 2 / 100, marginTop: heightsize * 5 / 100 }}>
+                                    Uploading the profile picture
+                                </Text>
+                            </View>
+                        </View>
                         :
                         <View />
                 }

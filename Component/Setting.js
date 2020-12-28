@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import {
     View, Text, TouchableOpacity, TouchableHighlight, ToastAndroid,
-    BackHandler, TouchableWithoutFeedback, Animated, Image,
+    BackHandler, TouchableWithoutFeedback, Animated,
 } from 'react-native';
+import Image from 'react-native-image-progress';
 import Logouticon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Helpicon from 'react-native-vector-icons/Entypo';
 import Contacticon from 'react-native-vector-icons/Ionicons';
@@ -17,9 +18,6 @@ export default class Setting extends Component {
         super(props);
         this.state = {
             logout: false,
-            name: '',
-            imageurl: '',
-            phonenumber: '',
             logoutalert: false,
             Showindicator: true,
             fadevalue: new Animated.Value(0),
@@ -32,7 +30,8 @@ export default class Setting extends Component {
         const name = await AsyncStorage.getItem('name');
         const phonenumber = await AsyncStorage.getItem('phonenumber');
         const imageurl = await AsyncStorage.getItem('profilepicture');
-        this.setState({ name: name, phonenumber: phonenumber, imageurl: imageurl });
+        console.log(imageurl)
+        this.setState({ name, phonenumber, imageurl });
         setTimeout(() => {
             this.setState({ Showindicator: false })
         }, 1000);
@@ -105,7 +104,7 @@ export default class Setting extends Component {
                     this.state.Showindicator == true
                         ?
                         <View style={{ flex: 1, backgroundColor: backgroundcolor, alignItems: "center", justifyContent: 'center' }}>
-                            <UIActivityIndicator color={highlightcolor} size={widthsize * 9 / 100} count={5} />
+                            <UIActivityIndicator color={highlightcolor} size={widthsize * 9 / 100} count={10} />
                         </View>
                         :
                         <View style={{ flex: 1, backgroundColor: backgroundcolor }}>
@@ -122,11 +121,19 @@ export default class Setting extends Component {
                                                 color={highlightcolor} />
                                         </View>
                                         :
-                                        <Image source={{ uri: this.state.imageurl }}
-                                            style={{
-                                                width: widthsize * 16 / 100, height: widthsize * 16 / 100, borderColor: highlightcolor,
-                                                borderRadius: (widthsize * 16 / 100) / 2, overflow: 'hidden', borderWidth: 1
-                                            }} />
+                                        <TouchableOpacity activeOpacity={0.6} delayPressIn={0} onPress={() => this.props.navigation.navigate("Profileview")}>
+                                            <Image
+                                                source={{ uri: this.state.imageurl }}
+                                                indicator={UIActivityIndicator}
+                                                indicatorProps={{
+                                                    size: widthsize * 3 / 100,
+                                                    color: highlightcolor,
+                                                }}
+                                                style={{
+                                                    width: widthsize * 16 / 100, height: widthsize * 16 / 100, borderColor: highlightcolor,
+                                                    borderRadius: (widthsize * 16 / 100) / 2, overflow: 'hidden', borderWidth: 1
+                                                }} />
+                                        </TouchableOpacity>
                                 }
                                 <View style={{ flex: 1, marginLeft: widthsize * 3 / 100 }}>
                                     <Text allowFontScaling={false} style={{ color: textcolor, fontSize: widthsize * 3 / 100 }}>
@@ -234,8 +241,8 @@ export default class Setting extends Component {
                                 <Text allowFontScaling={false} style={{ color: highlightcolor, fontSize: widthsize * 4 / 100 }}>
                                     Mediator
                                     </Text>
-                                <Text allowFontScaling={false} style={{ color: textcolor, fontSize: widthsize * 2 / 100 }}>
-                                    Bringing People Close
+                                <Text allowFontScaling={false} style={{ color: textcolor, fontSize: widthsize * 2 / 100, marginTop: heightsize * 1 / 100 }}>
+                                    Bringing Close The People
                                     </Text>
                             </View>
                         </View>
@@ -244,7 +251,7 @@ export default class Setting extends Component {
                     this.state.logout == true ?
                         <View style={{ flex: 1, justifyContent: 'center', width: '100%', backgroundColor: 'rgba(0,0,0,0.8)', height: '100%', position: 'absolute' }}>
                             <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-                                <WaveIndicator color={highlightcolor} size={widthsize * 7 / 100} count={5} />
+                                <WaveIndicator color={highlightcolor} size={widthsize * 8 / 100} count={5} />
                             </View>
                         </View>
                         :

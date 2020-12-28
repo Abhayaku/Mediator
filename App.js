@@ -11,6 +11,7 @@ import Chatscreen from './Component/Chatscreen';
 import Contactlist from './Component/Contactlist';
 import Signup from './Component/Signup';
 import Setting from './Component/Setting';
+import Profileview from './Component/Profileview';
 
 // screen dimension global
 global.widthsize = Dimensions.get('screen').width;
@@ -45,6 +46,7 @@ export default class App extends Component {
           <Stack.Screen name="Otpview" component={Otpview} />
           <Stack.Screen name="Homepage" component={Homepage} />
           <Stack.Screen name="Setting" component={Setting} />
+          <Stack.Screen name="Profileview" component={Profileview} />
           <Stack.Screen name="Contactlist" component={Contactlist} />
           <Stack.Screen name="Chatscreen" component={Chatscreen} />
         </Stack.Navigator>

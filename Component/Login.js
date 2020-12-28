@@ -69,7 +69,7 @@ export default class Login extends Component {
             else {
                 setTimeout(() => {
                     this.getuser("OTP");
-                }, 1000);
+                }, 100);
             }
         }
     }
@@ -89,7 +89,7 @@ export default class Login extends Component {
             else {
                 setTimeout(() => {
                     this.getuser("PASS");
-                }, 1000);
+                }, 100);
             }
         }
     }
@@ -114,7 +114,7 @@ export default class Login extends Component {
             else {
                 this.login();
             }
-        }, 1000);
+        }, 100);
     }
 
     // check user existance----------------------------------------------------------------------------------------------------------------------------------------------------
@@ -135,7 +135,7 @@ export default class Login extends Component {
                 const number = this.state.phonenumber
                 this.setState({ loginwithotp: false, phonenumber: '', password: '' });
                 this.props.navigation.navigate('Otpview', { number: number });
-            }, 1000);
+            }, 100);
         }
         else {
             setTimeout(() => {
@@ -145,7 +145,7 @@ export default class Login extends Component {
                     password: '',
                     loginwithotp: false,
                 });
-            }, 1000);
+            }, 100);
         }
     }
 
@@ -184,7 +184,7 @@ export default class Login extends Component {
             await AsyncStorage.multiSet(userinfo);
             setTimeout(() => {
                 ToastAndroid.showWithGravity(`Welcome to Mediator`, ToastAndroid.LONG, ToastAndroid.BOTTOM);
-            }, 1000);
+            }, 100);
             setTimeout(() => {
                 this.setState({
                     phonenumber: '',
@@ -192,7 +192,7 @@ export default class Login extends Component {
                     loginwithpass: false,
                 });
                 this.props.navigation.navigate('Homepage');
-            }, 1000);
+            }, 100);
         }
         else {
             if (phonematch == false) {
@@ -203,7 +203,7 @@ export default class Login extends Component {
                         password: '',
                         loginwithpass: false,
                     });
-                }, 1000);
+                }, 100);
             }
             else {
                 setTimeout(() => {
@@ -212,7 +212,7 @@ export default class Login extends Component {
                         password: '',
                         loginwithpass: false,
                     });
-                }, 1000);
+                }, 100);
             }
         }
     }
@@ -359,7 +359,7 @@ export default class Login extends Component {
                                     setTimeout(() => {
                                         this.props.navigation.navigate('Signup');
                                         this.setState({ signupactivebutton: false });
-                                    }, 1500);
+                                    }, 1000);
                                 }}
                                     activeOpacity={0.5}
                                     style={{

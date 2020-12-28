@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import {
-    View, Text, FlatList, TouchableHighlight, Image,
-    BackHandler, RefreshControl,
+    View, Text, FlatList, TouchableHighlight, BackHandler, RefreshControl,
 } from 'react-native';
+import Image from 'react-native-image-progress';
 import Backicon from 'react-native-vector-icons/AntDesign';
 import { UIActivityIndicator } from 'react-native-indicators';
 import UserIcon from 'react-native-vector-icons/FontAwesome';
@@ -14,11 +14,10 @@ export default class Contactlist extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            chatlist: '',
             userdata: [],
             contactphonenumber: [],
-            logout: false,
             Showindicator: true,
-            chatlist: '',
             refreshing: false
         };
     }
@@ -43,9 +42,9 @@ export default class Contactlist extends Component {
                 for (var i = 0; i < this.state.contactphonenumber.length; i++) {
                     this.state.contactphonenumber[i] = this.state.contactphonenumber[i].replace(/\s/g, '')
                 }
-                setTimeout(() => {
-                    this.getcontactlist();
-                }, 100);
+            }, 100);
+            setTimeout(() => {
+                this.getcontactlist();
             }, 100);
         })
     }
@@ -69,7 +68,7 @@ export default class Contactlist extends Component {
             this.setState({ contactphonenumber: contactphonenumber });
         }, 100);
         // match the phone number
-        setTimeout(() => {
+        setTimeout(async () => {
             var userdata = [];
             for (var i = 0; i < this.state.userdata.length; i++) {
                 for (var j = 0; j < this.state.contactphonenumber.length; j++) {
@@ -78,21 +77,20 @@ export default class Contactlist extends Component {
                     }
                 }
             }
-            // filter with own number
-            setTimeout(async () => {
-                const phonenumber = await AsyncStorage.getItem('phonenumber');
-                var actualdata = userdata.filter(function (data) {
-                    return data.phonenumber != phonenumber;
-                });
-                this.setState({ userdata: actualdata });
-                setTimeout(() => {
-                    this.state.userdata.sort((a, b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0));
-                    setTimeout(() => {
-                        this.setState({ Showindicator: false, refreshing: false });
-                    }, 100);
-                }, 100);
-            }, 100);
+            const phonenumber = await AsyncStorage.getItem('phonenumber');
+            var actualdata = userdata.filter(function (data) {
+                return data.phonenumber != phonenumber;
+            });
+            this.setState({ userdata: actualdata });
         }, 100);
+        // sorting with alphabet
+        setTimeout(() => {
+            this.state.userdata.sort((a, b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0));
+        }, 100);
+        // result show
+        setTimeout(() => {
+            this.setState({ Showindicator: false, refreshing: false });
+        }, 1000);
     }
 
     // back press----------------------------------------------------------------------------------------------------------------------------
@@ -169,7 +167,12 @@ export default class Contactlist extends Component {
 
     // refersh----------------------------------------------------------------------------------------------------------------------------------------------
     onRefresh = () => {
-        this.setState({ refreshing: true });
+        this.setState({
+            userdata: [],
+            contactphonenumber: [],
+            Showindicator: true,
+            refreshing: true
+        });
         setTimeout(() => {
             this.componentDidMount();
         }, 1000);
@@ -206,7 +209,7 @@ export default class Contactlist extends Component {
                     this.state.Showindicator == true
                         ?
                         <View style={{ flex: 1, backgroundColor: backgroundcolor, alignItems: "center", justifyContent: 'center' }}>
-                            <UIActivityIndicator color={highlightcolor} size={widthsize * 9 / 100} count={5} />
+                            <UIActivityIndicator color={highlightcolor} size={widthsize * 9 / 100} count={10} />
                         </View>
                         :
                         <View style={{ flex: 1, backgroundColor: backgroundcolor }}>
@@ -250,7 +253,13 @@ export default class Contactlist extends Component {
                                                                         color={highlightcolor} />
                                                                 </View>
                                                                 :
-                                                                <Image source={{ uri: item.imageurl }}
+                                                                <Image
+                                                                    source={{ uri: item.imageurl }}
+                                                                    indicator={UIActivityIndicator}
+                                                                    indicatorProps={{
+                                                                        size: widthsize * 1.5 / 100,
+                                                                        color: highlightcolor,
+                                                                    }}
                                                                     style={{
                                                                         width: widthsize * 12 / 100, height: widthsize * 12 / 100, borderColor: highlightcolor,
                                                                         borderRadius: (widthsize * 12 / 100) / 2, overflow: 'hidden', borderWidth: 1

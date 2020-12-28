@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import {
     View, Text, TouchableOpacity, FlatList, TouchableHighlight,
-    BackHandler, TouchableWithoutFeedback, Animated, Image, RefreshControl
+    BackHandler, RefreshControl
 } from 'react-native';
+import Image from 'react-native-image-progress';
 import Settingicon from 'react-native-vector-icons/Ionicons';
-import { WaveIndicator, UIActivityIndicator } from 'react-native-indicators';
+import { UIActivityIndicator } from 'react-native-indicators';
 import UserIcon from 'react-native-vector-icons/FontAwesome';
 import MediatoreIcon from 'react-native-vector-icons/Ionicons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -16,7 +17,7 @@ export default class Homepage extends Component {
         this.state = {
             chatlist: [],
             Showindicator: true,
-            refreshing: false
+            refreshing: false,
         };
     }
 
@@ -96,7 +97,7 @@ export default class Homepage extends Component {
                     this.state.Showindicator == true
                         ?
                         <View style={{ flex: 1, backgroundColor: backgroundcolor, alignItems: "center", justifyContent: 'center' }}>
-                            <UIActivityIndicator color={highlightcolor} size={widthsize * 9 / 100} count={5} />
+                            <UIActivityIndicator color={highlightcolor} size={widthsize * 9 / 100} count={10} />
                         </View>
 
                         :
@@ -141,7 +142,13 @@ export default class Homepage extends Component {
                                                                         color={highlightcolor} />
                                                                 </View>
                                                                 :
-                                                                <Image source={{ uri: item.imageurl }}
+                                                                <Image
+                                                                    source={{ uri: item.imageurl }}
+                                                                    indicator={UIActivityIndicator}
+                                                                    indicatorProps={{
+                                                                        size: widthsize * 1.5 / 100,
+                                                                        color: highlightcolor,
+                                                                    }}
                                                                     style={{
                                                                         width: widthsize * 12 / 100, height: widthsize * 12 / 100, borderColor: highlightcolor,
                                                                         borderRadius: (widthsize * 12 / 100) / 2, overflow: 'hidden', borderWidth: 1
