@@ -41,8 +41,11 @@ export default class Homepage extends Component {
                 var chatlist = this.state.chatlist.filter(function (data) {
                     return data.latestMessage.text != 'Sender';
                 });
-                this.setState({ Showindicator: false, refreshing: false, chatlist: chatlist });
-            }, 1000);
+                this.setState({ chatlist: chatlist });
+            }, 500);
+            setTimeout(() => {
+                this.setState({ Showindicator: false, refreshing: false, });
+            }, 500);
         });
     }
 
@@ -80,7 +83,7 @@ export default class Homepage extends Component {
                     flexDirection: 'row', justifyContent: 'space-between'
                 }}>
                     <View style={{ marginLeft: widthsize * 4 / 100 }}>
-                        <Text allowFontScaling={false} style={{ color: highlightcolor, fontSize: widthsize * 5 / 100 }}>
+                        <Text allowFontScaling={false} style={{ color: highlightcolor, fontSize: widthsize * 5 / 100, letterSpacing: 2 }}>
                             Mediator
                         </Text>
                     </View>
@@ -97,20 +100,19 @@ export default class Homepage extends Component {
                     this.state.Showindicator == true
                         ?
                         <View style={{ flex: 1, backgroundColor: backgroundcolor, alignItems: "center", justifyContent: 'center' }}>
-                            <UIActivityIndicator color={highlightcolor} size={widthsize * 9 / 100} count={10} />
+                            <UIActivityIndicator color={highlightcolor} size={widthsize * 5 / 100} count={12} />
                         </View>
-
                         :
                         <View style={{ flex: 1, backgroundColor: backgroundcolor }}>
                             {
                                 this.state.chatlist.length == 0
                                     ?
                                     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-                                        <Text allowFontScaling={false} style={{ color: textcolor, fontSize: widthsize * 3 / 100, textAlign: 'center' }}>
-                                            There is  no chat to show.
+                                        <Text allowFontScaling={false} style={{ color: textcolor, fontSize: widthsize * 3 / 100, textAlign: 'center', letterSpacing: 1 }}>
+                                            There is  no chat to show
                                         </Text>
-                                        <Text allowFontScaling={false} style={{ color: highlightcolor, fontSize: widthsize * 3 / 100, textAlign: 'center', marginTop: 5 }}>
-                                            Tap on  icon below and iniitiate the chat with users.
+                                        <Text allowFontScaling={false} style={{ color: highlightcolor, fontSize: widthsize * 2.5 / 100, textAlign: 'center', marginTop: 5, letterSpacing: 1 }}>
+                                            Tap on the below icon and initiate the chat with others
                                          </Text>
                                     </View>
                                     :

@@ -146,11 +146,11 @@ export default class Otpview extends Component {
         }, 100);
         setTimeout(() => {
             ToastAndroid.showWithGravity(`Welcome to Mediator`, ToastAndroid.LONG, ToastAndroid.BOTTOM);
-        }, 100);
+        }, 1000);
         setTimeout(() => {
             this.setState({ activebutton: false, verificationcode: '', confirmResult: '' });
             this.props.navigation.navigate('Homepage');
-        }, 100);
+        }, 1000);
     }
 
     // unmount----------------------------------------------------------------------------------------------------------------------------------------------

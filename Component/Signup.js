@@ -8,6 +8,7 @@ import { DotIndicator, UIActivityIndicator } from 'react-native-indicators';
 import Icon from 'react-native-vector-icons/Entypo';
 import Backicon from 'react-native-vector-icons/MaterialIcons';
 import firestore from '@react-native-firebase/firestore';
+import Cameraicon from 'react-native-vector-icons/Entypo';
 import Usericon from 'react-native-vector-icons/FontAwesome';
 import ImagePicker from 'react-native-image-crop-picker';
 import storage from '@react-native-firebase/storage';
@@ -262,7 +263,7 @@ export default class Signup extends Component {
             await AsyncStorage.multiSet(userinfo);
             setTimeout(() => {
                 ToastAndroid.showWithGravity(`Welcome to Mediator`, ToastAndroid.LONG, ToastAndroid.BOTTOM);
-            }, 100);
+            }, 1000);
             setTimeout(() => {
                 this.setState({
                     phonenumber: '',
@@ -278,7 +279,7 @@ export default class Signup extends Component {
                     uploadimage: false,
                 });
                 this.props.navigation.navigate('Homepage');
-            }, 100);
+            }, 1000);
         });
     }
 
@@ -295,13 +296,13 @@ export default class Signup extends Component {
 
                 {/* header */}
                 <View style={{ padding: widthsize * 5 / 100, justifyContent: 'center', alignItems: 'center' }}>
-                    <Text allowFontScaling={false} style={{ color: highlightcolor, fontWeight: 'bold', fontSize: widthsize * 5 / 100 }}>
+                    <Text allowFontScaling={false} style={{ color: highlightcolor, fontWeight: 'bold', fontSize: widthsize * 5 / 100, letterSpacing: 2 }}>
                         Create an Account
                     </Text>
                 </View>
 
                 <View style={{ padding: widthsize * 3 / 100 }}>
-                    <Text allowFontScaling={false} style={{ color: textcolor, fontSize: widthsize * 3 / 100, textAlign: 'center' }}>
+                    <Text allowFontScaling={false} style={{ color: textcolor, fontSize: widthsize * 3 / 100, textAlign: 'center', letterSpacing: 1 }}>
                         Enter your details to get register into Mediator
                     </Text>
                 </View>
@@ -324,22 +325,26 @@ export default class Signup extends Component {
                         {
                             this.state.profileimage == ''
                                 ?
-                                <TouchableOpacity delayPressIn={0} activeOpacity={0.5}
+                                <TouchableOpacity delayPressIn={0} activeOpacity={0.8}
                                     onPress={() => {
                                         this.setState({ imagechoose: true });
                                         this.fadeanimation();
                                     }}
                                     style={{
-                                        height: heightsize * 16 / 100, width: heightsize * 16 / 100, borderRadius: (heightsize * 16 / 100) / 2,
-                                        borderColor: highlightcolor, borderWidth: 1, alignItems: 'center', justifyContent: 'center', marginTop: heightsize * 3 / 100
+                                        height: heightsize * 16 / 100, width: heightsize * 16 / 100, borderRadius: (heightsize * 16 / 100) / 2, borderColor: highlightcolor,
+                                        borderWidth: 1, marginTop: heightsize * 3 / 100, overflow: 'hidden', backgroundColor: highlightcolor
                                     }}>
-                                    <View style={{ alignItems: 'center', justifyContent: 'center' }}>
+                                    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: backgroundcolor }}>
                                         <Usericon name='user'
-                                            size={widthsize * 15 / 100}
-                                            color={highlightcolor} />
-                                        <Text allowFontScaling={false} style={{ color: textcolor, fontSize: widthsize * 2 / 100 }}>
-                                            Add Profile Picture
-                                        </Text>
+                                            size={widthsize * 16 / 100}
+                                            color={highlightcolor}
+                                        />
+                                    </View>
+                                    <View style={{ backgroundColor: highlightcolor, padding: widthsize * 1.5 / 100, alignItems: 'center' }}>
+                                        <Cameraicon name='camera'
+                                            size={widthsize * 5 / 100}
+                                            color={backgroundcolor}
+                                        />
                                     </View>
                                 </TouchableOpacity>
                                 :
@@ -514,13 +519,13 @@ export default class Signup extends Component {
                     this.state.imagechoose == true ?
                         <TouchableWithoutFeedback onPress={() => this.setState({ imagechoose: false })}>
 
-                            <View style={{ flex: 1, justifyContent: 'center', width: widthsize, backgroundColor: 'rgba(0,0,0,0.8)', height: heightsize, position: 'absolute', padding: widthsize * 3 / 100 }}>
+                            <View style={{ flex: 1, justifyContent: 'center', width: widthsize, backgroundColor: 'rgba(0,0,0,0.9)', height: heightsize, position: 'absolute', padding: widthsize * 3 / 100 }}>
                                 <TouchableWithoutFeedback onPress={() => this.setState({ imagechoose: true })}>
 
                                     <Animated.View style={{ height: '20%', backgroundColor: buttonbackground, padding: widthsize * 5 / 100, opacity: this.state.fadevalue }}>
 
                                         <View style={{ height: '15%' }}>
-                                            <Text allowFontScaling={false} style={{ color: highlightcolor, fontWeight: 'bold', fontSize: widthsize * 3.5 / 100 }}>
+                                            <Text allowFontScaling={false} style={{ color: highlightcolor, fontWeight: 'bold', fontSize: widthsize * 3 / 100, letterSpacing: 1 }}>
                                                 Select Profile Picture
                                             </Text>
                                         </View>
@@ -529,7 +534,7 @@ export default class Signup extends Component {
                                         <TouchableOpacity onPress={() => { setTimeout(() => { this.choosecamera(); this.setState({ imagechoose: false }) }, 500); }}
                                             activeOpacity={0.5} style={{ width: '50%' }}>
                                             <View style={{ height: '15%', flexDirection: 'row', alignItems: 'center' }}>
-                                                <Text allowFontScaling={false} style={{ color: textcolor, fontSize: widthsize * 3 / 100, fontWeight: 'bold', marginLeft: widthsize * 2 / 100 }}>
+                                                <Text allowFontScaling={false} style={{ color: textcolor, fontSize: widthsize * 2.5 / 100, marginLeft: widthsize * 2 / 100, letterSpacing: 1 }}>
                                                     Take Photo
                                                 </Text>
                                             </View>
@@ -539,7 +544,7 @@ export default class Signup extends Component {
                                         <TouchableOpacity onPress={() => { setTimeout(() => { this.choosegallery(); this.setState({ imagechoose: false }) }, 500); }}
                                             activeOpacity={0.5} style={{ paddingTop: '1%', width: '50%' }}>
                                             <View style={{ height: '15%', flexDirection: 'row', alignItems: 'center' }}>
-                                                <Text allowFontScaling={false} style={{ color: textcolor, fontSize: widthsize * 3 / 100, fontWeight: 'bold', marginLeft: widthsize * 2 / 100 }}>
+                                                <Text allowFontScaling={false} style={{ color: textcolor, fontSize: widthsize * 2.5 / 100, marginLeft: widthsize * 2 / 100, letterSpacing: 1 }}>
                                                     Choose from Gallery
                                                 </Text>
                                             </View>
@@ -554,10 +559,10 @@ export default class Signup extends Component {
                 }
                 {
                     this.state.uploadimage == true ?
-                        <View style={{ flex: 1, justifyContent: 'center', width: '100%', backgroundColor: 'rgba(0,0,0,0.8)', height: '100%', position: 'absolute' }}>
+                        <View style={{ flex: 1, justifyContent: 'center', width: '100%', backgroundColor: 'rgba(0,0,0,0.9)', height: '100%', position: 'absolute' }}>
                             <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-                                <UIActivityIndicator color={highlightcolor} size={widthsize * 8 / 100} count={10} />
-                                <Text allowFontScaling={false} style={{ color: textcolor, fontSize: widthsize * 2 / 100, marginTop: heightsize * 5 / 100 }}>
+                                <UIActivityIndicator color={highlightcolor} size={widthsize * 8 / 100} count={12} />
+                                <Text allowFontScaling={false} style={{ color: textcolor, fontSize: widthsize * 2 / 100, marginTop: heightsize * 5 / 100, letterSpacing: 1 }}>
                                     Uploading the profile picture
                                 </Text>
                             </View>

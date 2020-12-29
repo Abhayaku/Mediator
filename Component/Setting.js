@@ -9,7 +9,7 @@ import Helpicon from 'react-native-vector-icons/Entypo';
 import Contacticon from 'react-native-vector-icons/Ionicons';
 import Accounticon from 'react-native-vector-icons/MaterialCommunityIcons';
 import UserIcon from 'react-native-vector-icons/FontAwesome';
-import { WaveIndicator, UIActivityIndicator } from 'react-native-indicators';
+import { PacmanIndicator, UIActivityIndicator } from 'react-native-indicators';
 import Backicon from 'react-native-vector-icons/AntDesign';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -30,7 +30,6 @@ export default class Setting extends Component {
         const name = await AsyncStorage.getItem('name');
         const phonenumber = await AsyncStorage.getItem('phonenumber');
         const imageurl = await AsyncStorage.getItem('profilepicture');
-        console.log(imageurl)
         this.setState({ name, phonenumber, imageurl });
         setTimeout(() => {
             this.setState({ Showindicator: false })
@@ -94,7 +93,7 @@ export default class Setting extends Component {
                             color={highlightcolor} />
                     </TouchableHighlight>
                     <View style={{ marginLeft: widthsize * 2 / 100, }}>
-                        <Text allowFontScaling={false} style={{ color: highlightcolor, fontSize: widthsize * 3.5 / 100 }}>
+                        <Text allowFontScaling={false} style={{ color: highlightcolor, fontSize: widthsize * 3.5 / 100, letterSpacing: 2 }}>
                             Settings
                         </Text>
                     </View>
@@ -104,11 +103,11 @@ export default class Setting extends Component {
                     this.state.Showindicator == true
                         ?
                         <View style={{ flex: 1, backgroundColor: backgroundcolor, alignItems: "center", justifyContent: 'center' }}>
-                            <UIActivityIndicator color={highlightcolor} size={widthsize * 9 / 100} count={10} />
+                            <UIActivityIndicator color={highlightcolor} size={widthsize * 5 / 100} count={12} />
                         </View>
                         :
                         <View style={{ flex: 1, backgroundColor: backgroundcolor }}>
-                            <View style={{ padding: widthsize * 4 / 100, flexDirection: 'row', alignItems: 'center', borderBottomWidth: 1, borderColor: buttonbackground, }}>
+                            <View style={{ padding: widthsize * 4 / 100, flexDirection: 'row', alignItems: 'center', borderBottomWidth: 1, borderColor: highlightcolor, }}>
                                 {
                                     this.state.imageurl == 'No Photo'
                                         ?
@@ -136,10 +135,10 @@ export default class Setting extends Component {
                                         </TouchableOpacity>
                                 }
                                 <View style={{ flex: 1, marginLeft: widthsize * 3 / 100 }}>
-                                    <Text allowFontScaling={false} style={{ color: textcolor, fontSize: widthsize * 3 / 100 }}>
+                                    <Text allowFontScaling={false} style={{ color: textcolor, fontSize: widthsize * 3 / 100, letterSpacing: 1 }}>
                                         {this.state.name}
                                     </Text>
-                                    <Text allowFontScaling={false} style={{ color: textcolor, fontSize: widthsize * 2.5 / 100, opacity: 0.5, marginTop: 5 }}>
+                                    <Text allowFontScaling={false} style={{ color: textcolor, fontSize: widthsize * 2.5 / 100, opacity: 0.5, marginTop: 5, letterSpacing: 1 }}>
                                         {this.state.phonenumber}
                                     </Text>
                                 </View>
@@ -159,7 +158,7 @@ export default class Setting extends Component {
                                             color={highlightcolor} />
                                     </View>
                                     <View style={{ flex: 1, marginLeft: widthsize * 3 / 100 }}>
-                                        <Text allowFontScaling={false} style={{ color: textcolor, fontSize: widthsize * 3 / 100 }}>
+                                        <Text allowFontScaling={false} style={{ color: textcolor, fontSize: widthsize * 3 / 100, letterSpacing: 1 }}>
                                             Account
                                     </Text>
                                     </View>
@@ -180,7 +179,7 @@ export default class Setting extends Component {
                                             color={highlightcolor} />
                                     </View>
                                     <View style={{ flex: 1, marginLeft: widthsize * 3 / 100 }}>
-                                        <Text allowFontScaling={false} style={{ color: textcolor, fontSize: widthsize * 3 / 100 }}>
+                                        <Text allowFontScaling={false} style={{ color: textcolor, fontSize: widthsize * 3 / 100, letterSpacing: 1 }}>
                                             Help
                                     </Text>
                                     </View>
@@ -201,7 +200,7 @@ export default class Setting extends Component {
                                             color={highlightcolor} />
                                     </View>
                                     <View style={{ flex: 1, marginLeft: widthsize * 3 / 100 }}>
-                                        <Text allowFontScaling={false} style={{ color: textcolor, fontSize: widthsize * 3 / 100 }}>
+                                        <Text allowFontScaling={false} style={{ color: textcolor, fontSize: widthsize * 3 / 100, letterSpacing: 1 }}>
                                             Contact Us
                                     </Text>
                                     </View>
@@ -225,7 +224,7 @@ export default class Setting extends Component {
                                             color={highlightcolor} />
                                     </View>
                                     <View style={{ flex: 1, marginLeft: widthsize * 3 / 100 }}>
-                                        <Text allowFontScaling={false} style={{ color: textcolor, fontSize: widthsize * 3 / 100 }}>
+                                        <Text allowFontScaling={false} style={{ color: textcolor, fontSize: widthsize * 3 / 100, letterSpacing: 1 }}>
                                             Log Out
                                     </Text>
                                     </View>
@@ -234,24 +233,24 @@ export default class Setting extends Component {
 
                             <View style={{
                                 height: heightsize * 5 / 100, borderTopWidth: 1,
-                                borderTopColor: buttonbackground, margin: widthsize * 5 / 100
+                                borderTopColor: highlightcolor, margin: widthsize * 5 / 100
                             }} />
 
                             <View style={{ alignItems: "center", justifyContent: 'center' }}>
-                                <Text allowFontScaling={false} style={{ color: highlightcolor, fontSize: widthsize * 4 / 100 }}>
+                                <Text allowFontScaling={false} style={{ color: highlightcolor, fontSize: widthsize * 4 / 100, letterSpacing: 2 }}>
                                     Mediator
                                     </Text>
-                                <Text allowFontScaling={false} style={{ color: textcolor, fontSize: widthsize * 2 / 100, marginTop: heightsize * 1 / 100 }}>
-                                    Bringing Close The People
+                                <Text allowFontScaling={false} style={{ color: textcolor, fontSize: widthsize * 2 / 100, marginTop: heightsize * 1 / 100, letterSpacing: 2 }}>
+                                    Bringing Close The Peoples
                                     </Text>
                             </View>
                         </View>
                 }
                 {
                     this.state.logout == true ?
-                        <View style={{ flex: 1, justifyContent: 'center', width: '100%', backgroundColor: 'rgba(0,0,0,0.8)', height: '100%', position: 'absolute' }}>
+                        <View style={{ flex: 1, justifyContent: 'center', width: '100%', backgroundColor: 'rgba(0,0,0,0.9)', height: '100%', position: 'absolute' }}>
                             <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-                                <WaveIndicator color={highlightcolor} size={widthsize * 8 / 100} count={5} />
+                                <PacmanIndicator color={highlightcolor} size={widthsize * 10 / 100} count={10} />
                             </View>
                         </View>
                         :
@@ -261,13 +260,13 @@ export default class Setting extends Component {
                     this.state.logoutalert == true ?
                         <TouchableWithoutFeedback onPress={() => this.setState({ logoutalert: false })}>
 
-                            <View style={{ flex: 1, justifyContent: 'center', width: widthsize, backgroundColor: 'rgba(0,0,0,0.8)', height: heightsize, position: 'absolute', padding: widthsize * 3 / 100 }}>
+                            <View style={{ flex: 1, justifyContent: 'center', width: widthsize, backgroundColor: 'rgba(0,0,0,0.9)', height: heightsize, position: 'absolute', padding: widthsize * 3 / 100 }}>
                                 <TouchableWithoutFeedback onPress={() => this.setState({ logoutalert: true })}>
 
                                     <Animated.View style={{ height: '20%', backgroundColor: buttonbackground, padding: widthsize * 5 / 100, opacity: this.state.fadevalue }}>
 
                                         <View style={{ height: '20%' }}>
-                                            <Text allowFontScaling={false} style={{ color: highlightcolor, fontWeight: 'bold', fontSize: widthsize * 3.5 / 100 }}>
+                                            <Text allowFontScaling={false} style={{ color: highlightcolor, fontWeight: 'bold', fontSize: widthsize * 3 / 100, letterSpacing: 1 }}>
                                                 Log Out
                                             </Text>
                                         </View>
@@ -275,13 +274,13 @@ export default class Setting extends Component {
                                         <View style={{ height: '20%' }} />
 
                                         <View style={{ height: '20%', flexDirection: 'row', alignItems: 'center' }}>
-                                            <Text allowFontScaling={false} style={{ color: textcolor, fontSize: widthsize * 2.5 / 100 }}>
+                                            <Text allowFontScaling={false} style={{ color: textcolor, fontSize: widthsize * 2.5 / 100, letterSpacing: 1 }}>
                                                 Do you want to log out from the application
                                             </Text>
-                                            <Text allowFontScaling={false} style={{ color: highlightcolor, fontSize: widthsize * 2.5 / 100 }}>
+                                            <Text allowFontScaling={false} style={{ color: highlightcolor, fontSize: widthsize * 2.5 / 100, letterSpacing: 1 }}>
                                                 {"  "}{this.state.name}
                                             </Text>
-                                            <Text allowFontScaling={false} style={{ color: textcolor, fontSize: widthsize * 2.5 / 100 }}>
+                                            <Text allowFontScaling={false} style={{ color: textcolor, fontSize: widthsize * 2.5 / 100, letterSpacing: 1 }}>
                                                 ?
                                             </Text>
                                         </View>
@@ -291,14 +290,14 @@ export default class Setting extends Component {
                                         <View style={{ height: '20%', alignItems: 'center', flexDirection: 'row-reverse' }}>
                                             <View>
                                                 <TouchableOpacity onPress={() => this.logout()}>
-                                                    <Text allowFontScaling={false} style={{ color: highlightcolor, fontSize: widthsize * 3 / 100, fontWeight: 'bold', marginRight: widthsize * 4 / 100 }}>
+                                                    <Text allowFontScaling={false} style={{ color: highlightcolor, fontSize: widthsize * 3 / 100, fontWeight: 'bold', marginRight: widthsize * 4 / 100, letterSpacing: 1 }}>
                                                         Yes
                                                     </Text>
                                                 </TouchableOpacity>
                                             </View>
                                             < View >
                                                 <TouchableOpacity onPress={() => this.setState({ logoutalert: false })}>
-                                                    <Text allowFontScaling={false} style={{ color: highlightcolor, fontSize: widthsize * 3 / 100, fontWeight: 'bold', marginRight: widthsize * 8 / 100 }}>
+                                                    <Text allowFontScaling={false} style={{ color: highlightcolor, fontSize: widthsize * 3 / 100, fontWeight: 'bold', marginRight: widthsize * 8 / 100, letterSpacing: 1 }}>
                                                         No
                                                     </Text>
                                                 </TouchableOpacity>

@@ -23,7 +23,7 @@ export default class Login extends Component {
             // height: 0
         };
     }
-    
+
     // mount----------------------------------------------------------------------------------------------------------------------------------------------
     componentDidMount() {
         BackHandler.addEventListener('hardwareBackPress', this.backpress);
@@ -114,7 +114,7 @@ export default class Login extends Component {
             else {
                 this.login();
             }
-        }, 100);
+        }, 1000);
     }
 
     // check user existance----------------------------------------------------------------------------------------------------------------------------------------------------
@@ -184,7 +184,7 @@ export default class Login extends Component {
             await AsyncStorage.multiSet(userinfo);
             setTimeout(() => {
                 ToastAndroid.showWithGravity(`Welcome to Mediator`, ToastAndroid.LONG, ToastAndroid.BOTTOM);
-            }, 100);
+            }, 1000);
             setTimeout(() => {
                 this.setState({
                     phonenumber: '',
@@ -192,7 +192,7 @@ export default class Login extends Component {
                     loginwithpass: false,
                 });
                 this.props.navigation.navigate('Homepage');
-            }, 100);
+            }, 1000);
         }
         else {
             if (phonematch == false) {
@@ -230,13 +230,13 @@ export default class Login extends Component {
 
                 {/* header */}
                 <View style={{ padding: widthsize * 5 / 100, justifyContent: 'center', alignItems: 'center' }}>
-                    <Text allowFontScaling={false} style={{ color: highlightcolor, fontWeight: 'bold', fontSize: widthsize * 5 / 100 }}>
+                    <Text allowFontScaling={false} style={{ color: highlightcolor, fontWeight: 'bold', fontSize: widthsize * 5 / 100, letterSpacing: 2 }}>
                         Login to Mediator
                     </Text>
                 </View>
 
                 <View style={{ padding: widthsize * 3 / 100 }}>
-                    <Text allowFontScaling={false} style={{ color: textcolor, fontSize: widthsize * 3 / 100, textAlign: 'center' }}>
+                    <Text allowFontScaling={false} style={{ color: textcolor, fontSize: widthsize * 3 / 100, textAlign: 'center', letterSpacing: 1 }}>
                         Enter your phone number and password to verify your identity
                     </Text>
                 </View>

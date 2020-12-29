@@ -80,7 +80,7 @@ export default class Chatscreen extends Component {
                     }, 200);
                 })
                 .catch((error) => {
-                    console.error('Error removing document: ', error);
+                    console.log(error);
                 });
         }
         else {
@@ -331,7 +331,7 @@ export default class Chatscreen extends Component {
                         </View>
                     </TouchableHighlight>
                     <View style={{ marginLeft: widthsize * 2 / 100, }}>
-                        <Text allowFontScaling={false} style={{ color: highlightcolor, fontSize: widthsize * 3.5 / 100 }}>
+                        <Text allowFontScaling={false} style={{ color: highlightcolor, fontSize: widthsize * 3.5 / 100, letterSpacing: 2 }}>
                             {this.props.route.params.title.name}
                         </Text>
                     </View>
@@ -372,7 +372,7 @@ export default class Chatscreen extends Component {
                         isTyping
                     />
                 </ImageBackground>
-            </View>
+            </View >
         );
     }
 }

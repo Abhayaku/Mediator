@@ -200,8 +200,8 @@ export default class Contactlist extends Component {
                             color={highlightcolor} />
                     </TouchableHighlight>
                     <View style={{ marginLeft: widthsize * 2 / 100, }}>
-                        <Text allowFontScaling={false} style={{ color: highlightcolor, fontSize: widthsize * 3.5 / 100 }}>
-                            Select Contact
+                        <Text allowFontScaling={false} style={{ color: highlightcolor, fontSize: widthsize * 3.5 / 100, letterSpacing: 2 }}>
+                            Select Contacts
                         </Text>
                     </View>
                 </View >
@@ -209,7 +209,7 @@ export default class Contactlist extends Component {
                     this.state.Showindicator == true
                         ?
                         <View style={{ flex: 1, backgroundColor: backgroundcolor, alignItems: "center", justifyContent: 'center' }}>
-                            <UIActivityIndicator color={highlightcolor} size={widthsize * 9 / 100} count={10} />
+                            <UIActivityIndicator color={highlightcolor} size={widthsize * 5 / 100} count={12} />
                         </View>
                         :
                         <View style={{ flex: 1, backgroundColor: backgroundcolor }}>
@@ -217,11 +217,11 @@ export default class Contactlist extends Component {
                                 this.state.userdata.length == 0
                                     ?
                                     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-                                        <Text allowFontScaling={false} style={{ color: textcolor, fontSize: widthsize * 3 / 100, textAlign: 'center' }}>
-                                            There is  no contact to show.
+                                        <Text allowFontScaling={false} style={{ color: textcolor, fontSize: widthsize * 3 / 100, textAlign: 'center', letterSpacing: 1 }}>
+                                            There is  no contact to show
                                         </Text>
-                                        <Text allowFontScaling={false} style={{ color: highlightcolor, fontSize: widthsize * 3 / 100, textAlign: 'center', marginTop: 5 }}>
-                                            When a contact create the account it will appear here.
+                                        <Text allowFontScaling={false} style={{ color: highlightcolor, fontSize: widthsize * 2.5 / 100, textAlign: 'center', marginTop: 5, letterSpacing: 1 }}>
+                                            When a contact create the account, it will appear here
                                          </Text>
                                     </View>
                                     :
