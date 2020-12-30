@@ -35,13 +35,11 @@ export default class Splashscreen extends Component {
                         color={highlightcolor}>
                     </MediatoreIcon>
                 </View>
-
                 <View style={{ marginTop: heightsize * 3 / 100, opacity: this.state.fadevalue }}>
                     <Text allowFontScaling={false} style={{ color: highlightcolor, fontSize: widthsize * 8 / 100, letterSpacing: 4 }}>
                         Mediator
                     </Text>
                 </View>
-
             </View>
         );
     }

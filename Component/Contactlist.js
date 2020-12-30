@@ -239,7 +239,7 @@ export default class Contactlist extends Component {
                                         renderItem={({ item }) => (
                                             <TouchableHighlight activeOpacity={0.6} delayPressIn={0} onPress={() => this.checkexistance(item)}
                                                 underlayColor={buttonbackground}>
-                                                <View style={{ padding: widthsize * 3 / 100, borderBottomWidth: 1, borderColor: buttonbackground, }}>
+                                                <View style={{ padding: widthsize * 3 / 100, borderBottomWidth: 0.5, borderColor: buttonbackground, }}>
                                                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                                                         {
                                                             item.imageurl == 'No Photo'

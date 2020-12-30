@@ -112,10 +112,13 @@ export default class Chatscreen extends Component {
                     right: {
                         color: textcolor,
                         fontSize: widthsize * 3 / 100,
+                        letterSpacing: 1,
+
                     },
                     left: {
                         color: statusbarcolor,
                         fontSize: widthsize * 3 / 100,
+                        letterSpacing: 1,
                     }
                 }}
             />
@@ -130,9 +133,13 @@ export default class Chatscreen extends Component {
                 timeTextStyle={{
                     left: {
                         color: statusbarcolor,
+                        letterSpacing: 1,
+                        fontSize: widthsize * 2 / 100,
                     },
                     right: {
                         color: textcolor,
+                        letterSpacing: 1,
+                        fontSize: widthsize * 2 / 100,
                     },
                 }}
             />
@@ -164,14 +171,14 @@ export default class Chatscreen extends Component {
                     <Lockicon name="lock" color={highlightcolor} size={widthsize * 2 / 100} />
                     <Text allowFontScaling={false} style={{
                         color: highlightcolor, fontSize: widthsize * 2 / 100, marginLeft: widthsize * 1 / 100,
-                        textAlign: 'center'
+                        textAlign: 'center', letterSpacing: 1
                     }}>
                         Your chat is end to end encrypted. Remember to be cautious about what you share with others.
                     </Text>
                 </View>
                 <Text allowFontScaling={false} style={{
                     color: textcolor, fontSize: widthsize * 2 / 100, marginTop: heightsize * 1 / 100,
-                    textAlign: 'center'
+                    textAlign: 'center', letterSpacing: 1
                 }}>
                     You have joined the chat with {this.props.route.params.title.name}
                 </Text>

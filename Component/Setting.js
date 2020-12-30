@@ -107,7 +107,7 @@ export default class Setting extends Component {
                         </View>
                         :
                         <View style={{ flex: 1, backgroundColor: backgroundcolor }}>
-                            <View style={{ padding: widthsize * 4 / 100, flexDirection: 'row', alignItems: 'center', borderBottomWidth: 1, borderColor: highlightcolor, }}>
+                            <View style={{ padding: widthsize * 4 / 100, flexDirection: 'row', alignItems: 'center', borderBottomWidth: 0.5, borderColor: highlightcolor, }}>
                                 {
                                     this.state.imageurl == 'No Photo'
                                         ?
@@ -232,7 +232,7 @@ export default class Setting extends Component {
                             </TouchableHighlight>
 
                             <View style={{
-                                height: heightsize * 5 / 100, borderTopWidth: 1,
+                                height: heightsize * 5 / 100, borderTopWidth: 0.5,
                                 borderTopColor: highlightcolor, margin: widthsize * 5 / 100
                             }} />
 

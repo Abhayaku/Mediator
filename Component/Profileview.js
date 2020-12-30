@@ -166,9 +166,11 @@ export default class Profileview extends Component {
         if (this.state.change) {
             if (this.state.logout) {
                 return (
-                    <View style={{ flex: 1, justifyContent: 'center', width: '100%', backgroundColor: 'rgba(0,0,0,0.9)', height: '100%', position: 'absolute' }}>
-                        <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-                            <PacmanIndicator color={highlightcolor} size={widthsize * 10 / 100} count={10} />
+                    <View style={{ flex: 1, backgroundColor: 'black' }}>
+                        <View style={{ flex: 1, justifyContent: 'center', width: '100%', backgroundColor: 'rgba(0,0,0,0.9)', height: '100%', position: 'absolute' }}>
+                            <View style={{ alignItems: 'center', justifyContent: 'center' }}>
+                                <PacmanIndicator color={highlightcolor} size={widthsize * 10 / 100} count={10} />
+                            </View>
                         </View>
                     </View>
                 )

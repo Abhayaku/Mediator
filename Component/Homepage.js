@@ -128,9 +128,9 @@ export default class Homepage extends Component {
                                             />
                                         }
                                         renderItem={({ item }) => (
-                                            <TouchableHighlight activeOpacity={0.6} delayPressIn={0} onPress={() => this.chatclick(item)}
+                                            <TouchableHighlight activeOpacity={0.7} delayPressIn={0} onPress={() => this.chatclick(item)}
                                                 underlayColor={buttonbackground}>
-                                                <View style={{ padding: widthsize * 3 / 100, borderBottomWidth: 1, borderColor: buttonbackground, }}>
+                                                <View style={{ padding: widthsize * 3 / 100, borderBottomWidth: 0.5, borderColor: buttonbackground, }}>
                                                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                                                         {
                                                             item.imageurl == 'No Photo'
@@ -157,10 +157,10 @@ export default class Homepage extends Component {
                                                                     }} />
                                                         }
                                                         <View style={{ flex: 1, marginLeft: widthsize * 3 / 100 }}>
-                                                            <Text allowFontScaling={false} style={{ color: highlightcolor, fontSize: widthsize * 3 / 100 }}>
+                                                            <Text allowFontScaling={false} style={{ color: highlightcolor, fontSize: widthsize * 3 / 100, letterSpacing: 1 }}>
                                                                 {item.name}
                                                             </Text>
-                                                            <Text allowFontScaling={false} style={{ color: textcolor, fontSize: widthsize * 2 / 100, opacity: 0.5, marginTop: 5 }}>
+                                                            <Text allowFontScaling={false} style={{ color: textcolor, fontSize: widthsize * 2 / 100, opacity: 0.5, marginTop: 5, letterSpacing: 0.5 }}>
                                                                 {item.latestMessage.text}
                                                             </Text>
                                                         </View>
@@ -168,7 +168,7 @@ export default class Homepage extends Component {
                                                             {
                                                                 new Date(item.latestMessage.createdAt).getHours() > new Date().getHours()
                                                                     ?
-                                                                    <Text allowFontScaling={false} style={{ color: textcolor, fontSize: widthsize * 2 / 100 }}>
+                                                                    <Text allowFontScaling={false} style={{ color: textcolor, fontSize: widthsize * 2 / 100, letterSpacing: 1 }}>
                                                                         Yesterday
                                                                     </Text>
                                                                     :
@@ -176,11 +176,11 @@ export default class Homepage extends Component {
                                                                         {
                                                                             new Date(item.latestMessage.createdAt).getDate() < new Date().getDate()
                                                                                 ?
-                                                                                <Text allowFontScaling={false} style={{ color: textcolor, fontSize: widthsize * 2 / 100 }}>
+                                                                                <Text allowFontScaling={false} style={{ color: textcolor, fontSize: widthsize * 2 / 100, letterSpacing: 1 }}>
                                                                                     {new Date(item.latestMessage.createdAt).getDate()}/{new Date(item.latestMessage.createdAt).getMonth() + 1}/{new Date(item.latestMessage.createdAt).getFullYear()}
                                                                                 </Text>
                                                                                 :
-                                                                                <Text allowFontScaling={false} style={{ color: textcolor, fontSize: widthsize * 2 / 100 }}>
+                                                                                <Text allowFontScaling={false} style={{ color: textcolor, fontSize: widthsize * 2 / 100, letterSpacing: 1 }}>
                                                                                     {new Date(item.latestMessage.createdAt).getHours()}:{new Date(item.latestMessage.createdAt).getMinutes()}
                                                                                 </Text>
                                                                         }

@@ -190,7 +190,9 @@ class Information extends Component {
 
   // allow permission-------------------------------------------------------
   ok = () => {
-    this.props.navigation.navigate("Permission");
+    setTimeout(() => {
+      this.props.navigation.navigate("Permission");
+    }, 1000);
   }
 
   render() {
