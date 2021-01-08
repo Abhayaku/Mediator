@@ -100,7 +100,7 @@ export default class Profileview extends Component {
   resizeimage = () => {
     const image = `data:${this.state.profileimage.mime};base64,${this.state.profileimage.data}`;
     // small
-    ImageResizer.createResizedImage(image, 60, 60, 'JPEG', 100, 0)
+    ImageResizer.createResizedImage(image, 100, 100, 'JPEG', 100, 0)
       .then((response) => {
         this.setState({smallimage: response});
       })
@@ -108,7 +108,7 @@ export default class Profileview extends Component {
         console.log(err);
       });
     // medium
-    ImageResizer.createResizedImage(image, 150, 150, 'JPEG', 100, 0)
+    ImageResizer.createResizedImage(image, 250, 250, 'JPEG', 100, 0)
       .then((response) => {
         this.setState({mediumimage: response});
       })
@@ -117,7 +117,7 @@ export default class Profileview extends Component {
       });
 
     // large
-    ImageResizer.createResizedImage(image, 500, 500, 'JPEG', 100, 0)
+    ImageResizer.createResizedImage(image, 700, 700, 'JPEG', 100, 0)
       .then((response) => {
         this.setState({largeimage: response});
       })
