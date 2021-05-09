@@ -22,6 +22,8 @@ import Contactlist from './Component/Contactlist';
 import Signup from './Component/Signup';
 import Setting from './Component/Setting';
 import Profileview from './Component/Profileview';
+import Page1 from './Component/Page1';
+import Page2 from './Component/Page2';
 
 // global variable----------------------------------------------
 global.widthsize = Dimensions.get('screen').width;
@@ -46,14 +48,17 @@ export default class App extends Component {
       <NavigationContainer>
         <Stack.Navigator
           headerMode="none"
-          initialRouteName="Index"
+          initialRouteName="Page1"
           screenOptions={{
             headerShown: false,
             gestureEnabled: true,
             cardOverlayEnabled: true,
             cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
           }}>
-          <Stack.Screen
+          <Stack.Screen name="Page1" component={Page1} />
+          <Stack.Screen name="Page2" component={Page2} />
+
+          {/*           <Stack.Screen
             name="Index"
             component={Index}
             options={{
@@ -85,7 +90,7 @@ export default class App extends Component {
           <Stack.Screen name="Setting" component={Setting} />
           <Stack.Screen name="Profileview" component={Profileview} />
           <Stack.Screen name="Contactlist" component={Contactlist} />
-          <Stack.Screen name="Chatscreen" component={Chatscreen} />
+          <Stack.Screen name="Chatscreen" component={Chatscreen} /> */}
         </Stack.Navigator>
       </NavigationContainer>
     );

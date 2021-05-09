@@ -18,12 +18,14 @@ import UserIcon from 'react-native-vector-icons/FontAwesome';
 import {PacmanIndicator, UIActivityIndicator} from 'react-native-indicators';
 import Backicon from 'react-native-vector-icons/AntDesign';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import firestore from '@react-native-firebase/firestore';
 
 export default class Setting extends Component {
   constructor(props) {
     super(props);
     this.state = {
       logout: false,
+      docid: '',
       logoutalert: false,
       Showindicator: true,
       fadevalue: new Animated.Value(0),
@@ -60,6 +62,20 @@ export default class Setting extends Component {
   // user logout----------------------------------------------------------------------------------------------------------------------------------------------
   logout = () => {
     this.setState({logout: true, logoutalert: false});
+    firestore()
+      .collection('Users')
+      .onSnapshot((querySnapshot) => {
+        querySnapshot.docs.map((doc) => {
+          if (doc._data.phonenumber == this.state.phonenumber) {
+            this.setState({docid: doc.id});
+          }
+        });
+      });
+    setTimeout(() => {
+      firestore().collection('Users').doc(this.state.docid).update({
+        token: firestore.FieldValue.delete(),
+      });
+    }, 100);
     setTimeout(async () => {
       let userdata = [
         'logincode',
@@ -70,6 +86,7 @@ export default class Setting extends Component {
         'smallimage',
         'mediumimage',
         'largeimage',
+        'token',
       ];
       await AsyncStorage.multiRemove(userdata).then(() => {
         setTimeout(() => {
@@ -447,7 +464,7 @@ export default class Setting extends Component {
                   style={{
                     height: '20%',
                     backgroundColor: buttonbackground,
-                    padding: (widthsize * 5) / 100,
+                    padding: (widthsize * 3) / 100,
                     opacity: this.state.fadevalue,
                   }}>
                   <View style={{height: '20%'}}>
@@ -469,14 +486,12 @@ export default class Setting extends Component {
                     style={{
                       height: '20%',
                       flexDirection: 'row',
-                      alignItems: 'center',
                     }}>
                     <Text
                       allowFontScaling={false}
                       style={{
                         color: textcolor,
                         fontSize: (widthsize * 2.5) / 100,
-                        letterSpacing: 1,
                       }}>
                       Do you want to log out from the application
                     </Text>
@@ -485,9 +500,8 @@ export default class Setting extends Component {
                       style={{
                         color: highlightcolor,
                         fontSize: (widthsize * 2.5) / 100,
-                        letterSpacing: 1,
                       }}>
-                      {'  '}
+                      {' '}
                       {this.state.name}
                     </Text>
                     <Text
@@ -495,7 +509,6 @@ export default class Setting extends Component {
                       style={{
                         color: textcolor,
                         fontSize: (widthsize * 2.5) / 100,
-                        letterSpacing: 1,
                       }}>
                       ?
                     </Text>

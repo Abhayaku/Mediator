@@ -261,9 +261,14 @@ export default class Profileview extends Component {
     }, 500);
   };
 
-  // user logout----------------------------------------------------------------------------------------------------------------------------------------------
+  // user logout---------------------------------------------------------------------------
   logout = () => {
     this.setState({logout: true});
+    setTimeout(() => {
+      firestore().collection('Users').doc(this.state.docid).update({
+        token: firestore.FieldValue.delete(),
+      });
+    }, 100);
     setTimeout(async () => {
       let userdata = [
         'logincode',
@@ -274,6 +279,7 @@ export default class Profileview extends Component {
         'smallimage',
         'mediumimage',
         'largeimage',
+        'token',
       ];
       await AsyncStorage.multiRemove(userdata).then(() => {
         setTimeout(() => {
@@ -330,7 +336,7 @@ export default class Profileview extends Component {
                 style={{
                   height: '20%',
                   backgroundColor: buttonbackground,
-                  padding: (widthsize * 5) / 100,
+                  padding: (widthsize * 3) / 100,
                 }}>
                 <View style={{height: '20%'}}>
                   <Text
@@ -349,14 +355,12 @@ export default class Profileview extends Component {
                   style={{
                     height: '20%',
                     flexDirection: 'row',
-                    alignItems: 'center',
                   }}>
                   <Text
                     allowFontScaling={false}
                     style={{
                       color: textcolor,
                       fontSize: (widthsize * 2.5) / 100,
-                      letterSpacing: 1,
                     }}>
                     Please log out to see the changes you made
                   </Text>
@@ -365,9 +369,8 @@ export default class Profileview extends Component {
                     style={{
                       color: highlightcolor,
                       fontSize: (widthsize * 2.5) / 100,
-                      letterSpacing: 1,
                     }}>
-                    {'  '}
+                    {' '}
                     {this.state.name}
                   </Text>
                   <Text
@@ -375,7 +378,6 @@ export default class Profileview extends Component {
                     style={{
                       color: textcolor,
                       fontSize: (widthsize * 2.5) / 100,
-                      letterSpacing: 1,
                     }}>
                     ?
                   </Text>

@@ -141,6 +141,7 @@ export default class Contactlist extends Component {
             name: title.name,
             phonenumber: title.phonenumber,
             smallimage: title.smallimage,
+            token: title.token,
             latestMessage: {
               text: `Sender`,
               createdAt: new Date().getTime(),

@@ -14,6 +14,7 @@ import Lockicon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Sendicon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Scrollicon from 'react-native-vector-icons/MaterialCommunityIcons';
 import UserIcon from 'react-native-vector-icons/FontAwesome';
+
 import {
   GiftedChat,
   Bubble,
@@ -23,7 +24,6 @@ import {
 } from 'react-native-gifted-chat';
 import firestore from '@react-native-firebase/firestore';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import PushNotification from 'react-native-push-notification';
 
 export default class Chatscreen extends Component {
   constructor(props) {
@@ -45,6 +45,7 @@ export default class Chatscreen extends Component {
 
   // mount-------------------------------------------------------------------------------------------------------------------------------
   async componentDidMount() {
+    console.log(this.props.route.params.title);
     BackHandler.addEventListener('hardwareBackPress', this.backpress);
     const phonenumber = await AsyncStorage.getItem('phonenumber');
     const name = await AsyncStorage.getItem('name');
@@ -268,6 +269,7 @@ export default class Chatscreen extends Component {
     const phonenumber = await AsyncStorage.getItem('phonenumber');
     const name = await AsyncStorage.getItem('name');
     const smallimage = await AsyncStorage.getItem('smallimage');
+    const token = await AsyncStorage.getItem('token');
 
     // receiver room
     firestore()
@@ -278,6 +280,7 @@ export default class Chatscreen extends Component {
         name: name,
         phonenumber: phonenumber,
         smallimage: smallimage,
+        token: token,
         latestMessage: {
           text: `Receiver`,
           createdAt: new Date().getTime(),
@@ -366,12 +369,32 @@ export default class Chatscreen extends Component {
       );
 
     var result = text.slice(0, 35) + (text.length > 35 ? '...' : '');
-    PushNotification.localNotification({
-      channelId: `${this.props.route.params.title.phonenumber}`,
-      title: `${this.state.name}`,
-      message: `${result}`,
-      color: highlightcolor,
+    const FIREBASE_API_KEY =
+      'AAAADmrAjiQ:APA91bGU-2-PpJHj2p301Gs5DbFa3CFfz2g8JS093Mn9XALnfy8DrGg78fPR6t0_-pEVGaXCf2aDAf6Vh-9Ytk4WEk3oulYb742LCemPYv_yWJ2BzaSoyNaYQpQPQRAFgnB5g8q1HvgN';
+    const message = {
+      registration_ids: [this.props.route.params.title.token],
+      notification: {
+        title: `${this.state.name}`,
+        body: `${result}`,
+        color: highlightcolor,
+        vibrate: 1,
+        sound: 1,
+        show_in_foreground: true,
+        priority: 'high',
+        content_available: true,
+      },
+    };
+
+    let response = await fetch('https://fcm.googleapis.com/fcm/send', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'key=' + FIREBASE_API_KEY,
+      },
+      body: JSON.stringify(message),
     });
+    response = await response.json();
+    console.log(response);
   };
 
   // unmount----------------------------------------------------------------------------------------------------------------------------------------------

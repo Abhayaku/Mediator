@@ -23,7 +23,7 @@ import ImagePicker from 'react-native-image-crop-picker';
 import storage from '@react-native-firebase/storage';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import ImageResizer from 'react-native-image-resizer';
-import PushNotification from 'react-native-push-notification';
+import messaging from '@react-native-firebase/messaging';
 
 export default class Signup extends Component {
   constructor(props) {
@@ -35,6 +35,7 @@ export default class Signup extends Component {
       email: '',
       password: '',
       confirmpass: '',
+      token: '',
       signupactivebutton: false,
       passiconname: 'eye-with-line',
       cnficonname: 'eye-with-line',
@@ -51,18 +52,45 @@ export default class Signup extends Component {
     };
   }
 
-  // mount----------------------------------------------------------------------------------------------------------------------------------------------
+  // mount-----------------------------------------------------------------------------------------
   componentDidMount() {
     BackHandler.addEventListener('hardwareBackPress', this.backpress);
+    this.checkPermission();
   }
 
-  //  backpress----------------------------------------------------------------------------------------------------------------------------------------------------
+  // check permission-----------------------------------------------------------
+  async checkPermission() {
+    const enable = messaging().hasPermission();
+    if (enable) {
+      this.getPermission();
+    } else {
+      this.getToken();
+    }
+  }
+
+  // get permission---------------------------------------------------
+  async getPermission() {
+    try {
+      await messaging().requestPermission();
+      this.getToken();
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  // get token---------------------------------------------------------------
+  async getToken() {
+    const token = await messaging().getToken();
+    this.setState({token: token});
+  }
+
+  //  backpress--------------------------------------------------------------------
   backpress = () => {
     this.props.navigation.goBack();
     return true;
   };
 
-  // pass eye icon press----------------------------------------------------------------------------------------------------------------------------------------------------
+  // pass eye icon press-----------------------------------------------------------
   passpress = () => {
     let iconname = this.state.passhidden ? 'eye' : 'eye-with-line';
     this.setState({
@@ -71,7 +99,7 @@ export default class Signup extends Component {
     });
   };
 
-  //cnf eye icon press----------------------------------------------------------------------------------------------------------------------------------------------------
+  //cnf eye icon press----------------------------------------------------------
   cnfpress = () => {
     let iconname = this.state.cnfhidden ? 'eye' : 'eye-with-line';
     this.setState({
@@ -80,7 +108,7 @@ export default class Signup extends Component {
     });
   };
 
-  // animation----------------------------------------------------------------------------------------------------------------------------------------------------
+  // animation---------------------------------------------------------------------
   fadeanimation = () => {
     Animated.timing(this.state.fadevalue, {
       toValue: 1,
@@ -89,7 +117,7 @@ export default class Signup extends Component {
     }).start();
   };
 
-  // camera choose----------------------------------------------------------------------------------------------------------------------------------------------------
+  // camera choose--------------------------------------------------------------------
   choosecamera = () => {
     ImagePicker.openCamera({
       cropping: true,
@@ -108,7 +136,7 @@ export default class Signup extends Component {
       });
   };
 
-  // gallery choose----------------------------------------------------------------------------------------------------------------------------------------------------
+  // gallery choose----------------------------------------------------------------
   choosegallery = () => {
     ImagePicker.openPicker({
       cropping: true,
@@ -127,7 +155,7 @@ export default class Signup extends Component {
       });
   };
 
-  // resize image in 3 format----------------------------------------------------------------------------------------------------------------------------------------------------
+  // resize image in 3 format------------------------------------------------------
   resizeimage = () => {
     const image = `data:${this.state.profileimage.mime};base64,${this.state.profileimage.data}`;
     // small
@@ -157,7 +185,7 @@ export default class Signup extends Component {
       });
   };
 
-  // check details----------------------------------------------------------------------------------------------------------------------------------------------------
+  // check details----------------------------------------------------------------------
   CheakDetails = () => {
     if (
       this.state.phonenumber == '' ||
@@ -211,7 +239,7 @@ export default class Signup extends Component {
     }
   };
 
-  // get user details---------------------------------------------------------------------------------------------------
+  // get user details---------------------------------------------------------------------
   getuser = () => {
     firestore()
       .collection('Users')
@@ -231,9 +259,10 @@ export default class Signup extends Component {
     }, 100);
   };
 
-  // signup the user--------------------------------------------------------------------------------------------------
+  // signup the user------------------------------------------------------------------------
   signup = async () => {
     var unique = true;
+    // phone number match
     for (var i = 0; i < this.state.userdata.length; i++) {
       if (this.state.userdata[i].phonenumber == this.state.phonenumber) {
         unique = false;
@@ -257,6 +286,7 @@ export default class Signup extends Component {
           email: '',
           password: '',
           confirmpass: '',
+          token: '',
           signupactivebutton: false,
           passiconname: 'eye-with-line',
           cnficonname: 'eye-with-line',
@@ -278,7 +308,7 @@ export default class Signup extends Component {
     }
   };
 
-  // uploading the small image----------------------------------------------------------------------------------------------------------------------------------------------------
+  // uploading the small image------------------------------------------------------
   upload_small_image = () => {
     if (this.state.profileimage == '') {
       setTimeout(() => {
@@ -298,7 +328,7 @@ export default class Signup extends Component {
     }
   };
 
-  // get the small image url----------------------------------------------------------------------------------------------------------------------------------------------------
+  // get the small image url-------------------------------------------------------
   get_small_image = async () => {
     const url = await storage()
       .ref(`profilepicture/small/${this.state.phonenumber}.jpg`)
@@ -309,7 +339,7 @@ export default class Signup extends Component {
     }, 50);
   };
 
-  // uploading the medium image----------------------------------------------------------------------------------------------------------------------------------------------------
+  // uploading the medium image-------------------------------------------------------------
   upload_medium_image = () => {
     const reference = storage().ref(
       `profilepicture/medium/${this.state.phonenumber}.jpg`,
@@ -370,6 +400,7 @@ export default class Signup extends Component {
         smallimage: this.state.smallimage,
         mediumimage: this.state.mediumimage,
         largeimage: this.state.largeimage,
+        token: this.state.token,
       })
       .then(async () => {
         let userinfo = [
@@ -381,6 +412,7 @@ export default class Signup extends Component {
           ['smallimage', this.state.smallimage],
           ['mediumimage', this.state.mediumimage],
           ['largeimage', this.state.largeimage],
+          ['token', this.state.token],
         ];
         await AsyncStorage.multiSet(userinfo);
         setTimeout(() => {
@@ -389,15 +421,6 @@ export default class Signup extends Component {
             ToastAndroid.LONG,
             ToastAndroid.BOTTOM,
           );
-          PushNotification.createChannel({
-            channelId: `${this.state.phonenumber}`,
-            channelName: `${this.state.firstname} ${this.state.lastname} `,
-            channelDescription: `A notification channel with ${this.state.firstname} to uniquely manage.`,
-            playSound: false,
-            soundName: 'default',
-            importance: 4,
-            vibrate: true,
-          });
         }, 1000);
         setTimeout(() => {
           this.setState({
@@ -407,6 +430,7 @@ export default class Signup extends Component {
             email: '',
             password: '',
             confirmpass: '',
+            token: '',
             signupactivebutton: false,
             passiconname: 'eye-with-line',
             cnficonname: 'eye-with-line',

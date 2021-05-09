@@ -57,3 +57,5 @@ buck-out/
 
 # CocoaPods
 /ios/Pods/
+android/java_pid4884.hprof
+android/java_pid5552.hprof

@@ -12,6 +12,7 @@ import {DotIndicator} from 'react-native-indicators';
 import Icon from 'react-native-vector-icons/Entypo';
 import firestore from '@react-native-firebase/firestore';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import messaging from '@react-native-firebase/messaging';
 
 export default class Login extends Component {
   constructor(props) {
@@ -19,6 +20,8 @@ export default class Login extends Component {
     this.state = {
       phonenumber: '',
       password: '',
+      token: '',
+      docid: '',
       loginwithpass: false,
       loginwithotp: false,
       signupactivebutton: false,
@@ -115,6 +118,25 @@ export default class Login extends Component {
         });
         this.setState({userdata: userdata});
       });
+    setTimeout(async () => {
+      const enable = messaging().hasPermission();
+      if (enable) {
+        setTimeout(async () => {
+          const token = await messaging().getToken();
+          this.setState({token: token});
+        }, 100);
+      } else {
+        try {
+          await messaging().requestPermission();
+          setTimeout(async () => {
+            const token = await messaging().getToken();
+            this.setState({token: token});
+          }, 100);
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    }, 100);
     setTimeout(() => {
       if (name == 'OTP') {
         this.checkuserexistance();
@@ -185,32 +207,51 @@ export default class Login extends Component {
       }
     }
     if (phonematch == true && passmatch == true) {
-      let userinfo = [
-        ['logincode', 'user do not logout'],
-        ['name', name],
-        ['phonenumber', this.state.phonenumber],
-        ['email', email],
-        ['password', this.state.password],
-        ['smallimage', smallimage],
-        ['mediumimage', mediumimage],
-        ['largeimage', largeimage],
-      ];
-      await AsyncStorage.multiSet(userinfo);
-      setTimeout(() => {
-        ToastAndroid.showWithGravity(
-          `Welcome to Mediator`,
-          ToastAndroid.LONG,
-          ToastAndroid.BOTTOM,
-        );
-      }, 1000);
-      setTimeout(() => {
-        this.setState({
-          phonenumber: '',
-          password: '',
-          loginwithpass: false,
+      firestore()
+        .collection('Users')
+        .onSnapshot((querySnapshot) => {
+          querySnapshot.docs.map((doc) => {
+            if (doc._data.phonenumber == this.state.phonenumber) {
+              this.setState({docid: doc.id});
+            }
+          });
         });
-        this.props.navigation.navigate('Homepage');
-      }, 1000);
+      setTimeout(() => {
+        firestore().collection('Users').doc(this.state.docid).update({
+          token: this.state.token,
+        });
+      }, 100);
+      setTimeout(async () => {
+        let userinfo = [
+          ['logincode', 'user do not logout'],
+          ['name', name],
+          ['phonenumber', this.state.phonenumber],
+          ['email', email],
+          ['password', this.state.password],
+          ['smallimage', smallimage],
+          ['mediumimage', mediumimage],
+          ['largeimage', largeimage],
+          ['token', this.state.token],
+        ];
+        await AsyncStorage.multiSet(userinfo);
+        setTimeout(() => {
+          ToastAndroid.showWithGravity(
+            `Welcome to Mediator`,
+            ToastAndroid.LONG,
+            ToastAndroid.BOTTOM,
+          );
+        }, 1000);
+        setTimeout(() => {
+          this.setState({
+            phonenumber: '',
+            password: '',
+            token: '',
+            docid: '',
+            loginwithpass: false,
+          });
+          this.props.navigation.navigate('Homepage');
+        }, 1000);
+      }, 100);
     } else {
       if (phonematch == false) {
         setTimeout(() => {
@@ -253,7 +294,6 @@ export default class Login extends Component {
           flex: 1,
           backgroundColor: backgroundcolor,
           alignItems: 'center',
-          backgroundColor: backgroundcolor,
         }}>
         {/* header */}
         <View
